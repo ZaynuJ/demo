@@ -17,6 +17,7 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;    
 
+
     @Column(name = "author")
     private String author;
 
@@ -83,6 +84,10 @@ public class Diary {
     @Override
     public String toString() {
         return "Diary [id= " + id + ", author= " + author + ", subject= " + subject + ", text= " + text + ", create_date= " + createDate + ", update_date= " + updateDate + " ]";
+    }
+
+    Diary() {
+        
     }
 
     public Diary(Long id, String author, String subject, String text, Date createDate, Date updateDate) {
