@@ -29,13 +29,13 @@ public class DiaryController {
     }
     
     @GetMapping("/diaries")
-	public ResponseEntity<List<Diary>> getAllTutorials(@RequestParam(required = false) String author) {
+	public ResponseEntity<List<Diary>> getAllDiaries(@RequestParam(required = false) String author) {
 		try {
             System.out.println("came in1");
 			List<Diary> diaries = new ArrayList<Diary>();
             //System.out.println("diaries = " + Arrays.toString(diaries));
 			if (author== null)
-            {
+            {	
                 System.out.println("came in2 author is null");
 				diaryRepository.findAll().forEach(diaries::add);
                 System.out.println("diaries: " + diaries);
