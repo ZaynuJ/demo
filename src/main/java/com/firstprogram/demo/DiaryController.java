@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +23,6 @@ public class DiaryController {
     @Autowired
 	DiaryRepository diaryRepository;
 
-    @GetMapping("/greeting")
-	public String greeting(@RequestParam(required = false, defaultValue = "World") String name) {
-		System.out.println("==== get greeting ====");
-		return new String("Hello world");
-    }
-    
     @GetMapping("/diaries")
 	public ResponseEntity<List<Diary>> getAllDiaries(@RequestParam(required = false) String author) {
 		try {
@@ -50,6 +46,17 @@ public class DiaryController {
 			return new ResponseEntity<>(diaries, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+		}
+	}
+
+
+	@PostMapping("/diaries")	
+	public ResponseEntity<Diary> createTutorial(@RequestBody Diary diary) {
+		try {
+			Diary diary1 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+			return new ResponseEntity<>(diary1, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
