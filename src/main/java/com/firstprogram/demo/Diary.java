@@ -16,7 +16,7 @@ import jakarta.persistence.TemporalType;
 public class Diary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;    
 
 
