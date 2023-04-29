@@ -63,17 +63,6 @@ public class DiaryController {
 
 	}
 
-
-	// @PostMapping("/diaries")
-	// public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
-	// 	try {
-	// 		Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
-	// 		return new ResponseEntity<>(new ResponseMessage(diary2.getId(), diary2.getAuthor()), HttpStatus.CREATED);
-	// 	} catch (Exception e) {
-	// 		return new ResponseEntity<>(new ResponseMessage(diary.getId(), diary.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-			
-	// 	}
-	// }
 	@PostMapping("/diaries")
 	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
 		try {
@@ -85,22 +74,7 @@ public class DiaryController {
 		}
 	}
 
-		// @DeleteMapping("/diaries/{id}")
-		// final ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
-		// 	try {
-		// 		Diary diary3 = diaryRepository.findById(id).get();
-		// 		diaryRepository.deleteById(id);
-		// 		return new ResponseEntity<>(new ResponseMessage(diary3.getId(), diary3.getAuthor()), HttpStatus.ACCEPTED);
-		// 	} 
-		// 	catch (NoSuchElementException e) {
-		// 		Diary diary3 = diaryRepository.findById(id).get();
-		// 		return new ResponseEntity<>(new ResponseMessage(diary3.getId(), diary3.getAuthor(),new AppError(HttpStatus.NOT_FOUND, "Нет того, что вы ищете, сударыня")), HttpStatus.BAD_REQUEST);
-		// 	}
-		// 	catch (Exception e) {
-		// 		Diary diary3 = diaryRepository.findById(id).get();
-		// 		return new ResponseEntity<>(new ResponseMessage(diary3.getId(), diary3.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-		// 	}
-		// }
+
 
 		@DeleteMapping("/diaries/{id}")
 		final ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
