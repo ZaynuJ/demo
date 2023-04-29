@@ -2,6 +2,7 @@ package com.firstprogram.demo;
 
 public class ResponseMessage {
 
+
     public Diary diary;
     private AppError appError;
 
@@ -13,7 +14,6 @@ public class ResponseMessage {
     public ResponseMessage(AppError appError) {
         this.appError = appError;
     }
-
 
     public AppError getAppError() {
         return appError;

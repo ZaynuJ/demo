@@ -1,9 +1,11 @@
 package com.firstprogram.demo;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.NoSuchElementException;
 
 import org.apache.catalina.connector.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -75,18 +77,6 @@ public class DiaryController {
 			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseMessage(diary,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-
-
-	@PostMapping("/diaries")	
-	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
-		try {
-			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
-			return new ResponseEntity<>(new ResponseMessage(diary2.getId(), diary2.getAuthor()), HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ResponseMessage(diary.getId(), diary.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-
-			
-		}
 	}
 
 
@@ -106,9 +96,9 @@ public class DiaryController {
 			}
 			catch (Exception e) 
 			{
-				// Diary diary3 = diaryRepository.findById(id).get();
+
 				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-			}
+
 		}
 	
 }
