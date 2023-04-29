@@ -1,13 +1,17 @@
 package com.firstprogram.demo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +34,13 @@ public class DiaryController {
     @GetMapping("/diaries")
 	public ResponseEntity<List<Diary>> getAllDiaries(@RequestParam(required = false) String author) {
 		try {
-            System.out.println("came in1");
 			List<Diary> diaries = new ArrayList<Diary>();
-            //System.out.println("diaries = " + Arrays.toString(diaries));
 			if (author== null)
             {	
-                System.out.println("came in2 author is null");
+
 				diaryRepository.findAll().forEach(diaries::add);
-                System.out.println("diaries: " + diaries);
             }
 			else
-            System.out.println("else came in2 author is not null");
 				diaryRepository.findByAuthor(author).forEach(diaries::add);
             
 			if (diaries.isEmpty()) {
@@ -54,15 +54,27 @@ public class DiaryController {
 	}
 
 
-	// @PostMapping("/diaries")	
-	// public ResponseEntity<Diary> createTutorial(@RequestBody Diary diary) {
-	// 	try {
-	// 		Diary diary1 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
-	// 		return new ResponseEntity<>(diary1, HttpStatus.CREATED);
-	// 	} catch (Exception e) {
-	// 		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	// 	}
-	// }
+	@GetMapping("/diaries/{id}")
+	public ResponseEntity<?> getDiaryById(@PathVariable("id") long id)
+	{
+		try {
+			Diary diary = diaryRepository.findById(id).get();
+			return new ResponseEntity<>(new ResponseMessage(diary, null), HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new ResponseMessage(new AppError(HttpStatus.NOT_FOUND, "Не найдено")),HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@PostMapping("/diaries")
+	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
+		try {
+			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ResponseMessage(diary,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
 
 
 	@PostMapping("/diaries")	
@@ -72,21 +84,31 @@ public class DiaryController {
 			return new ResponseEntity<>(new ResponseMessage(diary2.getId(), diary2.getAuthor()), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseMessage(diary.getId(), diary.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+
 			
 		}
 	}
 
 
-	//return new ResponseEntity<>(const1 + " " + diary2.getId(), HttpStatus.CREATED);
 
-}  
-// class Response {
-// 	private long id;
-// 	private String statusMessage;
 
-// 	public Response(long id)
-// 	{
-// 		this.id = id;
-// 		this.statusMessage = "Diary created";
-// 	}
-//  } 
+		@DeleteMapping("/diaries/{id}")
+		final ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
+			try {
+				Diary diary3 = diaryRepository.findById(id).get();
+				diaryRepository.deleteById(id);
+				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.ACCEPTED, "Удалено")), HttpStatus.ACCEPTED);
+			} 
+			catch (NoSuchElementException e) 
+			{
+				// Diary diary3 = diaryRepository.findById(id).get();
+				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.NOT_FOUND, "Нет того, что вы ищете, сударыня")), HttpStatus.BAD_REQUEST);
+			}
+			catch (Exception e) 
+			{
+				// Diary diary3 = diaryRepository.findById(id).get();
+				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+			}
+		}
+	
+}
