@@ -1,6 +1,8 @@
 package com.firstprogram.demo;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.Id;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -50,14 +54,39 @@ public class DiaryController {
 	}
 
 
+	// @PostMapping("/diaries")	
+	// public ResponseEntity<Diary> createTutorial(@RequestBody Diary diary) {
+	// 	try {
+	// 		Diary diary1 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+	// 		return new ResponseEntity<>(diary1, HttpStatus.CREATED);
+	// 	} catch (Exception e) {
+	// 		return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	}
+	// }
+
+
 	@PostMapping("/diaries")	
-	public ResponseEntity<Diary> createTutorial(@RequestBody Diary diary) {
+	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
 		try {
-			Diary diary1 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
-			return new ResponseEntity<>(diary1, HttpStatus.CREATED);
+			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+			return new ResponseEntity<>(new ResponseMessage(diary2.getId(), diary2.getAuthor()), HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ResponseMessage(diary.getId(), diary.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+			
 		}
 	}
 
-}   
+
+	//return new ResponseEntity<>(const1 + " " + diary2.getId(), HttpStatus.CREATED);
+
+}  
+// class Response {
+// 	private long id;
+// 	private String statusMessage;
+
+// 	public Response(long id)
+// 	{
+// 		this.id = id;
+// 		this.statusMessage = "Diary created";
+// 	}
+//  } 
