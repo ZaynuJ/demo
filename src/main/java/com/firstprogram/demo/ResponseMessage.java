@@ -10,7 +10,6 @@ public class ResponseMessage {
         this.appError = appError;
     }
 
-
     public ResponseMessage(AppError appError) {
         this.appError = appError;
     }

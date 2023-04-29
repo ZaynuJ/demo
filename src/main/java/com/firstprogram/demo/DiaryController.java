@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.Id;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -34,6 +37,7 @@ public class DiaryController {
 			List<Diary> diaries = new ArrayList<Diary>();
 			if (author== null)
             {	
+
 				diaryRepository.findAll().forEach(diaries::add);
             }
 			else
@@ -48,6 +52,7 @@ public class DiaryController {
 			return new ResponseEntity<>(null, HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
 		}
 	}
+
 
 	@GetMapping("/diaries/{id}")
 	public ResponseEntity<?> getDiaryById(@PathVariable("id") long id)
@@ -70,9 +75,20 @@ public class DiaryController {
 			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseMessage(diary,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+
+
+	@PostMapping("/diaries")	
+	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
+		try {
+			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+			return new ResponseEntity<>(new ResponseMessage(diary2.getId(), diary2.getAuthor()), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ResponseMessage(diary.getId(), diary.getAuthor(),new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+
 			
 		}
 	}
+
 
 
 
