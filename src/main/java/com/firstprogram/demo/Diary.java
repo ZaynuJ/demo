@@ -80,15 +80,15 @@ public class Diary {
         this.text = text;
     }
 
-    public Date getCreateDate() {
+    private Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+     void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
+    private Date getUpdateDate() {
         return updateDate;
     }
 
