@@ -78,6 +78,7 @@ public class DiaryController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseMessage(diary,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
 	}
+}
 
 
 
@@ -100,5 +101,7 @@ public class DiaryController {
 				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
 
 		}
-	
+	}
 }
+	
+
