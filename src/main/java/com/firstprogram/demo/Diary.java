@@ -1,13 +1,15 @@
 package com.firstprogram.demo;
-import java.sql.Date;
-
-
+import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="diary")
@@ -26,12 +28,25 @@ public class Diary {
 
     @Column(name = "text")
     private String text;
-
+    
+    @Temporal(TemporalType.DATE)
     @Column(name="create_date")
-    private Date createDate;
+    private Date createDate; 
 
-    @Column(name="update_date")
+    @Temporal(TemporalType.DATE)
+    @Column(name="update_date", nullable = false)
     private Date updateDate;
+
+    @PrePersist
+    protected void onCreate() {
+      this.createDate = new Date();
+      this.updateDate = new Date();
+    }
+  
+    @PreUpdate
+    protected void onUpdate() {
+      this.updateDate = new Date();
+    }
 
     public long getId() {
         return id;
@@ -90,12 +105,9 @@ public class Diary {
         
     }
 
-    public Diary(Long id, String author, String subject, String text, Date createDate, Date updateDate) {
-        this.id = id;
+    public Diary(String author, String subject, String text) {
 		this.author = author;
 		this.subject = subject;
 		this.text = text;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
 	}
 }
