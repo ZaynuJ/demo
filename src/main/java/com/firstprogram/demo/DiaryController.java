@@ -4,13 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import org.apache.catalina.connector.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -98,6 +93,7 @@ public class DiaryController {
 	public ResponseEntity<?> createTutorial(@RequestBody Diary diary) {
 		try {
 			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+
 			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseMessage(diary,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);

@@ -1,0 +1,13 @@
+databaseChangeLog:
+-  changeSet: 
+    id:  renameColumn-author_on_authorId_in_diary
+    author:  EZ  
+    changes:  
+    -  renameColumn:  
+        #catalogName:  cat  
+        columnDataType:  bigint  
+        newColumnName:  author_id  
+        oldColumnName:  author  
+        remarks:  for link to new table author 
+        schemaName:  public  
+        tableName:  diary

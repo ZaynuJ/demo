@@ -1,0 +1,11 @@
+databaseChangeLog:
+-  changeSet:  
+    id:  modifyDataType-authorId  
+    author:  EZ  
+    changes:  
+    -  modifyDataType:  
+        #catalogName:  cat  
+        columnName:  author_id  
+        newDataType:  bigint  
+        schemaName:  public  
+        tableName:  diary
