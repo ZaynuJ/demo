@@ -1,10 +1,17 @@
 package com.firstprogram.demo;
 import java.util.Date;
+import java.util.Set;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -19,9 +26,9 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;    
 
-
-    @Column(name = "author")
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     @Column(name = "subject")
     private String subject;
@@ -56,11 +63,11 @@ public class Diary {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -105,7 +112,7 @@ public class Diary {
         
     }
 
-    public Diary(String author, String subject, String text) {
+    public Diary(Author author, String subject, String text) {
 		this.author = author;
 		this.subject = subject;
 		this.text = text;
