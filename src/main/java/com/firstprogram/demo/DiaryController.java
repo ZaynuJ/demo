@@ -1,8 +1,10 @@
 package com.firstprogram.demo;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.apache.catalina.connector.Response;
 
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import jakarta.persistence.Id;
 
@@ -69,6 +73,26 @@ public class DiaryController {
 		}
 
 	}
+
+	@PutMapping("/diaries/{id}")
+	public ResponseEntity<?> replaceDiary(@RequestBody Diary newDiary, @PathVariable long id)
+	{
+		try {	
+			Diary curDiary = diaryRepository.findById(id).get();
+			curDiary.setAuthor(newDiary.getAuthor());
+			curDiary.setSubject(newDiary.getSubject());
+			curDiary.setText(newDiary.getText());
+			curDiary.setUpdateDate(new Date());
+			diaryRepository.save(curDiary);
+			return new ResponseEntity<>(new ResponseMessage(curDiary, null), HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new ResponseMessage(new AppError(HttpStatus.NOT_FOUND, "Не найдено")),HttpStatus.NOT_FOUND);
+		}
+	}
+
+
 
 	@PostMapping("/diaries")
 	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
