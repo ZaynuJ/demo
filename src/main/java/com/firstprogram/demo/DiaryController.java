@@ -80,13 +80,9 @@ public class DiaryController {
 	}
 }
 
-
-
-
 		@DeleteMapping("/diaries/{id}")
 		final ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
 			try {
-				Diary diary3 = diaryRepository.findById(id).get();
 				diaryRepository.deleteById(id);
 				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.ACCEPTED, "Удалено")), HttpStatus.ACCEPTED);
 			} 
@@ -99,7 +95,6 @@ public class DiaryController {
 			{
 
 				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
-
 		}
 	}
 }
