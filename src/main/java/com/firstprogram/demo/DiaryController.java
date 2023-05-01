@@ -95,7 +95,7 @@ public class DiaryController {
 
 
 	@PostMapping("/diaries")
-	public ResponseEntity<?> createTutorial1(@RequestBody Diary diary) {
+	public ResponseEntity<?> createTutorial(@RequestBody Diary diary) {
 		try {
 			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
 			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
@@ -105,20 +105,19 @@ public class DiaryController {
 }
 
 		@DeleteMapping("/diaries/{id}")
-		final ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
+		public ResponseEntity<?> deleteDiary(@PathVariable("id") long id) {
 			try {
 				diaryRepository.deleteById(id);
-				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.ACCEPTED, "Удалено")), HttpStatus.ACCEPTED);
+				return new ResponseEntity<>(new ResponseMessage (), HttpStatus.ACCEPTED);
+				//return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.ACCEPTED, "Удалено")), HttpStatus.ACCEPTED);
 			} 
 			catch (NoSuchElementException e) 
 			{
-				// Diary diary3 = diaryRepository.findById(id).get();
-				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.NOT_FOUND, "Нет того, что вы ищете, сударыня")), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new ResponseMessage((Author)null, new AppError(HttpStatus.NOT_FOUND, "Нет того, что вы ищете, сударыня")), HttpStatus.BAD_REQUEST);
 			}
 			catch (Exception e) 
 			{
-
-				return new ResponseEntity<>(new ResponseMessage(null,new AppError(HttpStatus.BAD_REQUEST, "Какая-то ошибка")), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new ResponseMessage((Author)null, new AppError(HttpStatus.BAD_REQUEST, "Нет того, что вы ищете, сударыня")), HttpStatus.BAD_REQUEST);
 		}
 	}
 }
