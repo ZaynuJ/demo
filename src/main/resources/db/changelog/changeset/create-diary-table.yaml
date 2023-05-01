@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-diary #текстовый идентификатор (Обязателен)
+      author: EZ # автор (Обязателен)
+      changes:
+        - createTable: # создаем новую таблицу
+            tableName: diary
+            columns: # объявления колонок
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: author
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subject
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false             
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: false     
+              - column:
+                  name: update_date
+                  type: date
+                  constraints:
+                    nullable: false     
+fields:
+  - metadata: {}
+    name: colName
+    nullable: true
+
+
+
+
+fields:
+  - metadata: {}
+    name: colName
+    nullable: true

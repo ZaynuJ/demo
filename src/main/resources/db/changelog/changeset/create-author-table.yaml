@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-author #текстовый идентификатор (Обязателен)
+      author: EZ # автор (Обязателен)
+      changes:
+        - createTable: # создаем новую таблицу
+            tableName: author
+            columns: # объявления колонок
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: second_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birth_date
+                  type: date
+                  constraints:
+                    nullable: true             
