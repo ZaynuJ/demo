@@ -1,0 +1,4 @@
+databaseChangeLog: #параметр в котором находятся миграции
+  - include: # список активных миграций
+      file: db/changelog/changeset/create-diary-table.yaml
+      
