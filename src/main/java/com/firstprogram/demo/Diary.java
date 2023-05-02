@@ -1,8 +1,6 @@
 package com.firstprogram.demo;
 import java.util.Date;
 import java.util.Set;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +24,7 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;    
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "author_id")
     private Author author;
 

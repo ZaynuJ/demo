@@ -25,12 +25,8 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;  
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="author_id")
+    @OneToMany(mappedBy = "author")
     private List<Diary> diaries;
-    
-    // @OneToMany(mappedBy="author")
-    // private Set<Diary> diaries;
     
     @Column(name = "first_name")
     private String firstName;

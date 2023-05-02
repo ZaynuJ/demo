@@ -32,6 +32,9 @@ public class DiaryController {
     @Autowired
 	DiaryRepository diaryRepository;
 
+	@Autowired
+	AuthorRepository authorRepository;
+
     @GetMapping("/diaries")
 	public ResponseEntity<List<Diary>> getAllDiaries(@RequestParam(required = false) String author) {
 		try {
@@ -92,7 +95,11 @@ public class DiaryController {
 	@PostMapping("/diaries")
 	public ResponseEntity<?> createTutorial(@RequestBody Diary diary) {
 		try {
-			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(), diary.getText()));
+
+			// Author author1 = authorRepository.findById(diary.getAuthorId()).get();
+			// Diary diary2 = diaryRepository.save(new Diary(author1.getId(), diary.getSubject(),diary.getText()));
+
+			Diary diary2 = diaryRepository.save(new Diary(diary.getAuthor(), diary.getSubject(),diary.getText()));
 
 			return new ResponseEntity<>(new ResponseMessage(diary2, null),HttpStatus.CREATED);
 		} catch (Exception e) {
